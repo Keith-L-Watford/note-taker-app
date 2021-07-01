@@ -1,15 +1,24 @@
 const express = require('express');
 const path = require('path');
+const uniqid = require('uniqid');
+const fs = require('fs');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 
-const notes = [{},];
+
 
 
 app.use(express.urlencoded({ extended: true}));
 app.use(express.json());
+
+
+
+
+// const notes = [{
+//     "title": "test text",
+// },];
 
 
 // routes
@@ -19,10 +28,16 @@ app.get('/notes', (req, res) => res.sendFile(path.join(__dirname, './public/note
 
 // the api stuff. GET and POST
 app.get('/api/notes/:notes', (req,res) => {
-
+    if (notes) {
+        return res.json(notes);
+    }
+    return res.json(false);
 });
 
 app.post('/api/notes/', (req, res) => {
+const newNote = req.body;
+
+
 
 });
 
