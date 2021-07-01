@@ -6,14 +6,8 @@ const fs = require('fs');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-
-
-
-
 app.use(express.urlencoded({ extended: true}));
 app.use(express.json());
-
-
 
 
 // const notes = [{
@@ -27,17 +21,12 @@ app.get('/notes', (req, res) => res.sendFile(path.join(__dirname, './public/note
 
 
 // the api stuff. GET and POST
-app.get('/api/notes/:notes', (req,res) => {
-    if (notes) {
-        return res.json(notes);
-    }
-    return res.json(false);
+app.get('/api/notes/', (req,res) => {
+    
 });
 
 app.post('/api/notes/', (req, res) => {
-const newNote = req.body;
-
-
+// const newNote = req.body;
 
 });
 
