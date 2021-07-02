@@ -2,7 +2,7 @@ const express = require('express');
 const path = require('path');
 const uniqid = require('uniqid');
 const fs = require('fs');
-const dbjson = require('./db/db.json');
+// const dbjson = require('./db/db.json');
 
 
 const app = express();
@@ -16,9 +16,9 @@ app.use(express.json());
 app.use(express.static(__dirname + '/public'));
 
 // The api stuff with readFile. GET and POST
-fs.readFile("db/db.json", "utf8", (err, dbjson) => {
+fs.readFile("db/db.json", "utf8", (err, data) => {
     if (err) throw err;
-    const notes = JSON.parse(dbjson)
+    const notes = JSON.parse(data)
 
     app.get('/api/notes', (req, res) => res.json(notes));
 
@@ -28,6 +28,10 @@ fs.readFile("db/db.json", "utf8", (err, dbjson) => {
         addNewNoteToDB()
         console.log("testing to see if" + aNewNote.title + "was added");
     });
+
+    // ============
+
+    // stuff about unique ID numbers?
 
     // ==================================
     // to navigate between pages
