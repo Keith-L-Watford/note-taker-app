@@ -22,8 +22,6 @@ app.use(express.static(__dirname + '/public'));
 
 // 
 
-app.get('/', (req, res) => res.sendFile(path.join(__dirname, './public/index.html')));
-app.get('/notes', (req, res) => res.sendFile(path.join(__dirname, './public/notes.html')));
 
 
 
@@ -33,10 +31,21 @@ fs.readFile("db/db.json", "utf8", (err, dbjson) => {
     if (err) throw err;
     const notes = JSON.parse(dbjson)
 
-
     app.get('/api/notes', (req, res) => res.json(notes));
 
-    // app.post('/api/notes', (req, res) => res.json(dbjson)); 
+    app.post('/api/notes', (req, res) => {
+        const aNewNote = req.body;
+        notes.push(aNewNote)
+        console.log("testing to see if" + aNewNote.title + "was added");
+    });
+
+    // ==================================
+    // to navigate between pages
+    // moving these in here for now because why not
+    app.get('/', (req, res) => res.sendFile(path.join(__dirname, './public/index.html')));
+    app.get('/notes', (req, res) => res.sendFile(path.join(__dirname, './public/notes.html')));
+
+
 
 });
 
