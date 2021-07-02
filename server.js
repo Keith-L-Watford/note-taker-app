@@ -9,6 +9,8 @@ const PORT = process.env.PORT || 3000;
 
 app.use(express.urlencoded({ extended: true}));
 app.use(express.json());
+// reccomended by Shane C.
+app.use(express.static(__dirname + '/public'));
 
 // const notes = [{
 //     "title": "test text",
