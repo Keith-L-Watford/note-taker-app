@@ -13,7 +13,8 @@ app.use(express.urlencoded({
 }));
 app.use(express.json());
 // recommended by Shane C.
-app.use(express.static(__dirname + '/public'));
+// app.use(express.static(__dirname + '/public'));
+app.use(express.static('public'));
 
 // The api stuff with readFile. GET and POST
 fs.readFile("db/db.json", "utf8", (err, data) => {
@@ -26,16 +27,22 @@ fs.readFile("db/db.json", "utf8", (err, data) => {
         const aNewNote = req.body;
         notes.push(aNewNote)
         addNewNoteToDB()
-        console.log("testing to see if" + aNewNote.title + "was added");
+        console.log("testing to see if " + aNewNote.title + " was added");
     });
 
     // ============
     // stuff about unique ID numbers
     app.get('/api/notes/:id', (req, res) => {
-        const noteId = req.params.id;
-        res.json(noteId);
+      
+        res.json(notes);
     });
 
+    app.delete("/api/notes/:id", function (req, res) {
+        const noteId = req.params.id;
+        notes.splice(noteId, 1);
+        addNewNoteToDB();
+        console.log("testing to see if " + noteId + " was deleted.");
+    });
 
     // ==================================
     // to navigate between pages
@@ -43,10 +50,16 @@ fs.readFile("db/db.json", "utf8", (err, data) => {
     app.get('/', (req, res) => res.sendFile(path.join(__dirname, './public/index.html')));
     app.get('/notes', (req, res) => res.sendFile(path.join(__dirname, './public/notes.html')));
 
-    // addNewNoteToDB() => {
-    //     fs.writeFile("db/db.json", JSON.stringify(notes), err)
-    // };
+    // addNewNoteToDB()
+    function addNewNoteToDB() {
+        fs.writeFile("db/db.json",JSON.stringify(notes),err => {
+            if (err) throw err;
+            return true;
+        });
+    }
+
 });
+
 
 // The Listener
 app.listen(PORT, () => console.log(`App listening on PORT ${PORT}`));
