@@ -30,8 +30,12 @@ fs.readFile("db/db.json", "utf8", (err, data) => {
     });
 
     // ============
+    // stuff about unique ID numbers
+    app.get('/api/notes/:id', (req, res) => {
+        const noteId = req.params.id;
+        res.json(noteId);
+    });
 
-    // stuff about unique ID numbers?
 
     // ==================================
     // to navigate between pages
